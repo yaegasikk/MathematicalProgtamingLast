@@ -1,7 +1,7 @@
 using Random,LinearAlgebra
 using Plots
 
-Random.seed!(7223)
+seed = 7223
 
 function lineserch_pd(x,Q,∇f)
     g = (-1).*∇f(x)
@@ -10,6 +10,7 @@ function lineserch_pd(x,Q,∇f)
 end
 
 function lineserch_back(x,f,∇f,c1=0.9)
+    Random.seed!(seed)
     ρ = rand()
     alpha = 1
     d = (-1).*∇f(x)

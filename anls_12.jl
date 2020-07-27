@@ -3,7 +3,7 @@ include("make_prob.jl")
 using Random,LinearAlgebra
 
 seed = 72331
-stop =1.0e-1
+stop =1.0e-8
 function steepestdescent(n,prob)
     Random.seed!(seed)
     Q,f,∇f,xs = prob_function(n,prob)    

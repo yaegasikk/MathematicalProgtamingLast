@@ -63,7 +63,24 @@ function prob_function(n,probq,c=0)
     return Q, f, ∇f,xs    
 end
 
-function prob4(n)
-    
+function prob4(x)
+    n = size(x)[1]
+    return_ans = 0.0
+    for i in 2:n
+        return_ans = return_ans + 100*(x[i]-x[i-1]^2)^2 + (1-x[i])^2
+    end
+    return return_ans
 end
+
+function nablaprob4(x)
+    n = size(x)[1]
+    return_list = zeros(size(x))
+    return_list[1] = -400*x[1]*(x[2]-x[1]^2)
+    for i in 2:n-1
+        return_list[i] = 200*(x[i]-x[i-1]^2)-2*(1-x[i])-(400*(x[i]*(x[i+1]-x[i]^2)))
+    end
+    return_list[n] = 200*(x[n]-x[n-1]^2)-(2*(1-x[n]))
+    return return_list
+end
+
 #Q,f,∇f = prob_function(n,prob2)
