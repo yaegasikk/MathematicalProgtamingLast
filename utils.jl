@@ -9,10 +9,10 @@ function lineserch_pd(x,Q,∇f)
     return alpha
 end
 
-function lineserch_back(x,f,∇f,c1=0.9)
+function lineserch_back(x,f,∇f,c1=0.1)
     Random.seed!(seed)
     ρ = rand()
-    alpha = 1
+    alpha = rand(1:1000)
     d = (-1).*∇f(x)
     phi(a) = f(x.+(a.*d))
     phidash(a) = d'* ∇f(x.+(a.*d))

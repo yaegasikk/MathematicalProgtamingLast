@@ -50,10 +50,10 @@ function qnewtonBFGS(n,prob)
     #α = lineserch_back(x_k,f,∇f)
     x_k1 = x_k + α.*d
     s = x_k1 - x_k
-    y = ∇f(x_k1)-∇f(x_k)
+    y = ∇f(x_k1).-∇f(x_k)
     b = ((s*(H*y)')+(H*y*s'))/(s'*y)
     c = (1+((y'*H*y)/(s'*y)))*((s*s')/(s'*y))
-    H = H -b+c
+    H = H.-b.+c
     x_k = x_k1
     push!(stop_list,stop_criterion(f,x_k1,xs))
     while stop_criterion(f,x_k,xs)>stop
@@ -65,7 +65,7 @@ function qnewtonBFGS(n,prob)
         y = ∇f(x_k1)-∇f(x_k)
         b = ((s*(H*y)')+(H*y*s'))/(s'*y)
         c = (1+((y'*H*y)/(s'*y)))*((s*s')/(s'*y))
-        H = H -b+c
+        H = H.-b.+c
         x_k = x_k1
         push!(stop_list,stop_criterion(f,x_k1,xs))
         #println(stop_list[end])

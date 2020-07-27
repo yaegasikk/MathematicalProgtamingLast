@@ -77,7 +77,7 @@ function nablaprob4(x)
     return_list = zeros(size(x))
     return_list[1] = -400*x[1]*(x[2]-x[1]^2)
     for i in 2:n-1
-        return_list[i] = 200*(x[i]-x[i-1]^2)-2*(1-x[i])-(400*(x[i]*(x[i+1]-x[i]^2)))
+        return_list[i] = 200*(x[i]-x[i-1]^2)-(2*(1-x[i]))-(400*(x[i]*(x[i+1]-x[i]^2)))
     end
     return_list[n] = 200*(x[n]-x[n-1]^2)-(2*(1-x[n]))
     return return_list
