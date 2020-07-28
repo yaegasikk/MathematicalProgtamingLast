@@ -13,7 +13,7 @@ end
 function prob1(n,c=10)
     A = rand(n,n)
     F = qr(A)
-    S = Matrix(F.Q)
+    S = F.Q
     λs = rand(c+1:2c-1,n)
     λs[1]=c
     λs[n]=2c
@@ -23,10 +23,10 @@ function prob1(n,c=10)
     return Q
 end
 
-function prob2(n,c=1)
+function prob2(n,c=10)
     A = rand(n,n)
     F = qr(A)
-    S = Matrix(F.Q)
+    S = F.Q
     λs = rand(c+1:20c-1,n)
     λs[1]=c
     λs[n]=20c
@@ -36,10 +36,10 @@ function prob2(n,c=1)
     return Q
 end
 
-function prob3(n,c=5)
+function prob3(n,c=3)
     A = rand(n,n)
     F = qr(A)
-    S = Matrix(F.Q)
+    S = F.Q
     l = ceil(Int64,0.3*n)
     λs = rand(c:2c,n)
     for i in 1:l

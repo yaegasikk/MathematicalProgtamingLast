@@ -1,7 +1,7 @@
 using Random,LinearAlgebra
 using Plots
 
-seed = 7223
+seed =4000 
 
 function lineserch_pd(x,Q,∇f)
     g = (-1).*∇f(x)
@@ -9,10 +9,10 @@ function lineserch_pd(x,Q,∇f)
     return alpha
 end
 
-function lineserch_back(x,f,∇f,c1=0.1)
+function lineserch_back(x,f,∇f,c1=0.9)
     Random.seed!(seed)
     ρ = rand()
-    alpha = rand(1:1000)
+    alpha = rand(1:10)
     d = (-1).*∇f(x)
     phi(a) = f(x.+(a.*d))
     phidash(a) = d'* ∇f(x.+(a.*d))
@@ -32,9 +32,4 @@ function stop_criterion(f,x,xs)
     return abs(f(x)-f(xs))
 end
 
-function plotlog(results,labels)
-    gr()
-    plot(results,yaxis=:log,label=labels)
-    savefig("test.pdf")
-end
 

@@ -2,7 +2,7 @@ include("utils.jl")
 include("make_prob.jl")
 using Random,LinearAlgebra
 
-seed = 72331
+seed = 4500
 stop =1.0e-8
 function steepestdescent(n,prob)
     Random.seed!(seed)
@@ -51,7 +51,7 @@ function qnewtonBFGS(n,prob)
     x_k1 = x_k + α.*d
     s = x_k1 - x_k
     y = ∇f(x_k1).-∇f(x_k)
-    b = ((s*(H*y)')+(H*y*s'))/(s'*y)
+    b = ((H*y*s')+(s*y'*H'))/(y'*s)
     c = (1+((y'*H*y)/(s'*y)))*((s*s')/(s'*y))
     H = H.-b.+c
     x_k = x_k1
@@ -63,8 +63,8 @@ function qnewtonBFGS(n,prob)
         x_k1 = x_k + α.*d
         s = x_k1 - x_k
         y = ∇f(x_k1)-∇f(x_k)
-        b = ((s*(H*y)')+(H*y*s'))/(s'*y)
-        c = (1+((y'*H*y)/(s'*y)))*((s*s')/(s'*y))
+        b = ((H*y*s')+(s*y'*H'))/(y'*s)
+        c = (1+((y'*H*y)/(s'*y)))*((s*s')/(y'*s))
         H = H.-b.+c
         x_k = x_k1
         push!(stop_list,stop_criterion(f,x_k1,xs))
@@ -73,15 +73,15 @@ function qnewtonBFGS(n,prob)
     return stop_list    
 end
 
-gr()
-a = conjugategradient(100,prob1)
-plot(a,yaxis=:log,label="CG",ylabel="|f(xk)-f(x*)|",xlabel="k")
+#gr()
+a = conjugategradient(100,prob2)
+#plot(a,yaxis=:log,label="CG",ylabel="|f(xk)-f(x*)|",xlabel="k")
 println(size(a))
-a = steepestdescent(100,prob1)
+a = steepestdescent(100,prob2)
 println(size(a))
-plot!(a,yaxis=:log,label="SD")
-a = qnewtonBFGS(100,prob1)
+#plot!(a,yaxis=:log,label="SD")
+a = qnewtonBFGS(100,prob2)
 println(size(a))
-plot!(a,yaxis=:log,label="BFGS")
-savefig("ans1.pdf")
+#plot!(a,yaxis=:log,label="BFGS")
+#savefig("ans1.pdf")
 
