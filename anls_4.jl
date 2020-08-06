@@ -30,7 +30,7 @@ function qnewtonBFGS(n)
     f(x) = prob4(x)
     ∇f(x) = nablaprob4(x)
     xs = ones(Float64,n)  
-    x_k = rand(n).*10
+    x_k = rand(n)
     stop_list = [stop_criterion(f,x_k,xs)]
     H = Matrix{Float64}(I, n, n)
     d = (-1).*H*∇f(x_k)
@@ -55,6 +55,9 @@ function qnewtonBFGS(n)
         x_k = x_k1
         push!(stop_list,stop_criterion(f,x_k1,xs))
         println(stop_list[end])
+        if(stop_list[end]<stop)
+            break
+        end
     end
     return stop_list    
 end

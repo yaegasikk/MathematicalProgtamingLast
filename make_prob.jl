@@ -17,8 +17,9 @@ function prob1(n,c=10)
     λs = rand(c+1:2c-1,n)
     λs[1]=c
     λs[n]=2c
+    λs = λs/norm(λs)
     Λ = lambda_make(shuffle(λs))
-    #println(Λ)
+    #Λ = Λ/norm(Λ)
     Q = S*Λ*S'
     return Q
 end
@@ -31,6 +32,7 @@ function prob2(n,c=10)
     λs[1]=c
     λs[n]=20c
     Λ = lambda_make(shuffle(λs))
+    λs = λs/norm(λs)
     #println(Λ)
     Q = S*Λ*S'
     return Q
@@ -45,6 +47,7 @@ function prob3(n,c=3)
     for i in 1:l
         λs[i] = 0
     end
+    λs = λs/norm(λs)
     Λ = lambda_make(shuffle(λs))
     #println(Λ)
     Q = S*Λ*S'

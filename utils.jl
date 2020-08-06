@@ -1,5 +1,5 @@
 using Random,LinearAlgebra
-using Plots
+#using Plots
 
 seed =4000 
 
@@ -12,7 +12,7 @@ end
 function lineserch_back(x,f,∇f,c1=0.9)
     Random.seed!(seed)
     ρ = rand()
-    alpha = rand(1:10)
+    alpha = 1
     d = (-1).*∇f(x)
     phi(a) = f(x.+(a.*d))
     phidash(a) = d'* ∇f(x.+(a.*d))

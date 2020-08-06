@@ -3,7 +3,7 @@ include("make_prob.jl")
 using Random,LinearAlgebra
 
 seed = 4500
-stop =1.0e-8
+stop =1.0e-3
 function steepestdescent(n,prob)
     Random.seed!(seed)
     Q,f,∇f,xs = prob_function(n,prob)    
@@ -11,8 +11,8 @@ function steepestdescent(n,prob)
     stop_list = [stop_criterion(f,x,xs)]
     while stop_criterion(f,x,xs)>stop
         d = (-1)*∇f(x)
-        α = lineserch_pd(x,Q,∇f)
-        #α = lineserch_back(x,f,∇f)
+        #α = lineserch_pd(x,Q,∇f)
+        α = lineserch_back(x,f,∇f)
         x = x .+ α.*d
         push!(stop_list,stop_criterion(f,x,xs))
         println(stop_criterion(f,x,xs))
@@ -28,8 +28,8 @@ function conjugategradient(n,prob)
     stop_list = [stop_criterion(f,x_k,xs)]
     p = (-1)*∇f(x_k)
     while stop_criterion(f,x_k,xs)>stop
-        α = lineserch_pd(x_k,Q,∇f)
-        #α = lineserch_back(x_k,f,∇f)
+        #α = lineserch_pd(x_k,Q,∇f)
+        α = lineserch_back(x_k,f,∇f)
         x_k1 = x_k + α.*p
         p = (-1).*∇f(x_k1)+((∇f(x_k1)'*Q*p)/(p'*Q*p)).*p
         push!(stop_list,stop_criterion(f,x_k1,xs))
@@ -41,6 +41,7 @@ end
 
 function qnewtonBFGS(n,prob)
     Random.seed!(seed)
+    stop_val = stop
     Q,f,∇f,xs = prob_function(n,prob)    
     x_k = rand(n)
     stop_list = [stop_criterion(f,x_k,xs)]
@@ -56,7 +57,7 @@ function qnewtonBFGS(n,prob)
     H = H.-b.+c
     x_k = x_k1
     push!(stop_list,stop_criterion(f,x_k1,xs))
-    while stop_criterion(f,x_k,xs)>stop
+    while stop_criterion(f,x_k,xs)>stop_val
         d = (-1).*H*∇f(x_k)
         α = lineserch_pd(x_k,Q,∇f)
         #α = lineserch_back(x_k,f,∇f)
@@ -68,7 +69,10 @@ function qnewtonBFGS(n,prob)
         H = H.-b.+c
         x_k = x_k1
         push!(stop_list,stop_criterion(f,x_k1,xs))
-        #println(stop_list[end])
+        println(stop_list[end])
+        if stop_list[end]<stop_val
+            break
+        end
     end
     return stop_list    
 end
